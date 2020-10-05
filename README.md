@@ -40,6 +40,7 @@ HAL Driver F2 | CMSIS Device F2 | CMSIS Core | Was delivered in the full MCU pac
 ------------- | --------------- | ---------- | -------------------------------------
 Tag v1.2.3 | Tag v2.2.2 | Tag v5.4.0_cm3 | Tag v1.8.0 (and following, if any, till next tag)
 Tag v1.2.4 | Tag v2.2.3 | Tag v5.4.0_cm3 | Tag v1.9.0 (and following, if any, till next tag)
+Tag v1.2.5 | Tag v2.2.4 | Tag v5.4.0_cm3 | Tag v1.9.1 (and following, if any, till next tag)
 
 The full **STM32CubeF2** MCU package is available [here](https://github.com/STMicroelectronics/STM32CubeF2).
 
