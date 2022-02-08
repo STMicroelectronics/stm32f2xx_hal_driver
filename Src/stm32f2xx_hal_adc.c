@@ -1167,13 +1167,16 @@ void HAL_ADC_IRQHandler(ADC_HandleTypeDef* hadc)
 {
   uint32_t tmp1 = 0U, tmp2 = 0U;
   
+  uint32_t tmp_sr = hadc->Instance->SR;
+  uint32_t tmp_cr1 = hadc->Instance->CR1;
+
   /* Check the parameters */
   assert_param(IS_FUNCTIONAL_STATE(hadc->Init.ContinuousConvMode));
   assert_param(IS_ADC_REGULAR_LENGTH(hadc->Init.NbrOfConversion));
   assert_param(IS_ADC_EOCSelection(hadc->Init.EOCSelection));
   
-  tmp1 = __HAL_ADC_GET_FLAG(hadc, ADC_FLAG_EOC);
-  tmp2 = __HAL_ADC_GET_IT_SOURCE(hadc, ADC_IT_EOC);
+  tmp1 = tmp_sr & ADC_FLAG_EOC;
+  tmp2 = tmp_cr1 & ADC_IT_EOC;
   /* Check End of conversion flag for regular channels */
   if(tmp1 && tmp2)
   {
@@ -1221,8 +1224,8 @@ void HAL_ADC_IRQHandler(ADC_HandleTypeDef* hadc)
     __HAL_ADC_CLEAR_FLAG(hadc, ADC_FLAG_STRT | ADC_FLAG_EOC);
   }
   
-  tmp1 = __HAL_ADC_GET_FLAG(hadc, ADC_FLAG_JEOC);
-  tmp2 = __HAL_ADC_GET_IT_SOURCE(hadc, ADC_IT_JEOC);                               
+  tmp1 = tmp_sr & ADC_FLAG_JEOC;
+  tmp2 = tmp_cr1 & ADC_IT_JEOC;
   /* Check End of conversion flag for injected channels */
   if(tmp1 && tmp2)
   {
@@ -1267,8 +1270,8 @@ void HAL_ADC_IRQHandler(ADC_HandleTypeDef* hadc)
     __HAL_ADC_CLEAR_FLAG(hadc, (ADC_FLAG_JSTRT | ADC_FLAG_JEOC));
   }
   
-  tmp1 = __HAL_ADC_GET_FLAG(hadc, ADC_FLAG_AWD);
-  tmp2 = __HAL_ADC_GET_IT_SOURCE(hadc, ADC_IT_AWD);                          
+  tmp1 = tmp_sr & ADC_FLAG_AWD;
+  tmp2 = tmp_cr1 & ADC_IT_AWD;
   /* Check Analog watchdog flag */
   if(tmp1 && tmp2)
   {
@@ -1289,8 +1292,8 @@ void HAL_ADC_IRQHandler(ADC_HandleTypeDef* hadc)
     }
   }
   
-  tmp1 = __HAL_ADC_GET_FLAG(hadc, ADC_FLAG_OVR);
-  tmp2 = __HAL_ADC_GET_IT_SOURCE(hadc, ADC_IT_OVR);
+  tmp1 = tmp_sr & ADC_FLAG_OVR;
+  tmp2 = tmp_cr1 & ADC_IT_OVR;
   /* Check Overrun flag */
   if(tmp1 && tmp2)
   {
