@@ -1005,6 +1005,8 @@ HAL_StatusTypeDef HAL_DMA_RegisterCallback(DMA_HandleTypeDef *hdma, HAL_DMA_Call
       break;
 
     default:
+      /* Return error status */
+      status =  HAL_ERROR;
       break;
     }
   }
