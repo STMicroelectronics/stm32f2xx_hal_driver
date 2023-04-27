@@ -242,3 +242,5 @@ uint32_t HAL_GetUIDw2(void);
 #endif
 
 #endif /* __STM32F2xx_HAL_H */
+
+

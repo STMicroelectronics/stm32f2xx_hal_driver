@@ -9,10 +9,9 @@
   * Copyright (c) 2017 STMicroelectronics.
   * All rights reserved.
   *
-  * This software is licensed under terms that can be found in the LICENSE file
-  * in the root directory of this software component.
+  * This software is licensed under terms that can be found in the LICENSE file in
+  * the root directory of this software component.
   * If no LICENSE file comes with this software, it is provided AS-IS.
-  *
   ******************************************************************************
   */
 
@@ -417,3 +416,4 @@ HAL_StatusTypeDef HAL_RCCEx_DisablePLLI2S(void);
 #endif
 
 #endif /* __STM32F2xx_HAL_RCC_EX_H */
+

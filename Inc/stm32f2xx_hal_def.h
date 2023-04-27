@@ -2,8 +2,9 @@
   ******************************************************************************
   * @file    stm32f2xx_hal_def.h
   * @author  MCD Application Team
-  * @brief   This file contains HAL common defines, enumeration, macros and 
-  *          structures definitions. 
+  * @brief   This file contains HAL common defines, enumeration, macros and
+  *          structures definitions.
+  *
   ******************************************************************************
   * @attention
   *
@@ -175,3 +176,5 @@ typedef enum
 #endif
 
 #endif /* ___STM32F2xx_HAL_DEF */
+
+

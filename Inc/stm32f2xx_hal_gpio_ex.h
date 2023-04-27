@@ -276,3 +276,4 @@
 #endif
 
 #endif /* __STM32F2xx_HAL_GPIO_EX_H */
+

@@ -25,7 +25,7 @@
 #include "stm32_assert.h"
 #else
 #define assert_param(expr) ((void)0U)
-#endif/* USE_FULL_ASSERT */
+#endif /* USE_FULL_ASSERT */
 
 /** @addtogroup STM32F2xx_LL_Driver
   * @{
@@ -59,7 +59,7 @@
   *          - SUCCESS: CRC registers are de-initialized
   *          - ERROR: CRC registers are not de-initialized
   */
-ErrorStatus LL_CRC_DeInit(CRC_TypeDef *CRCx)
+ErrorStatus LL_CRC_DeInit(const CRC_TypeDef *CRCx)
 {
   ErrorStatus status = SUCCESS;
 

@@ -752,3 +752,4 @@ uint32_t HAL_SMARTCARD_GetError(const SMARTCARD_HandleTypeDef *hsc);
 #endif
 
 #endif /* __STM32F2xx_HAL_SMARTCARD_H */
+

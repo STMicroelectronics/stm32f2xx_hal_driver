@@ -15,7 +15,6 @@
   *
   ******************************************************************************
   */
-
 #if defined(USE_FULL_LL_DRIVER)
 
 /* Includes ------------------------------------------------------------------*/
@@ -85,11 +84,11 @@
                                    || ((__VALUE__) == LL_RTC_WEEKDAY_SATURDAY) \
                                    || ((__VALUE__) == LL_RTC_WEEKDAY_SUNDAY))
 
-#define IS_LL_RTC_DAY(__DAY__)    (((__DAY__) >= 1U) && ((__DAY__) <= 31U))
+#define IS_LL_RTC_DAY(__DAY__)     (((__DAY__) >= 1U) && ((__DAY__) <= 31U))
 
 #define IS_LL_RTC_MONTH(__MONTH__) (((__MONTH__) >= 1U) && ((__MONTH__) <= 12U))
 
-#define IS_LL_RTC_YEAR(__YEAR__) ((__YEAR__) <= 99U)
+#define IS_LL_RTC_YEAR(__YEAR__)   ((__YEAR__) <= 99U)
 
 #define IS_LL_RTC_ALMA_MASK(__VALUE__) (((__VALUE__) == LL_RTC_ALMA_MASK_NONE) \
                                      || ((__VALUE__) == LL_RTC_ALMA_MASK_DATEWEEKDAY) \
@@ -105,13 +104,11 @@
                                      || ((__VALUE__) == LL_RTC_ALMB_MASK_SECONDS) \
                                      || ((__VALUE__) == LL_RTC_ALMB_MASK_ALL))
 
-
 #define IS_LL_RTC_ALMA_DATE_WEEKDAY_SEL(__SEL__) (((__SEL__) == LL_RTC_ALMA_DATEWEEKDAYSEL_DATE) || \
                                                   ((__SEL__) == LL_RTC_ALMA_DATEWEEKDAYSEL_WEEKDAY))
 
 #define IS_LL_RTC_ALMB_DATE_WEEKDAY_SEL(__SEL__) (((__SEL__) == LL_RTC_ALMB_DATEWEEKDAYSEL_DATE) || \
                                                   ((__SEL__) == LL_RTC_ALMB_DATEWEEKDAYSEL_WEEKDAY))
-
 
 /**
   * @}
@@ -128,7 +125,7 @@
 
 /**
   * @brief  De-Initializes the RTC registers to their default reset values.
-  * @note   This function doesn't reset the RTC Clock source and RTC Backup Data
+  * @note   This function does not reset the RTC Clock source and RTC Backup Data
   *         registers.
   * @param  RTCx RTC Instance
   * @retval An ErrorStatus enumeration value:
@@ -150,17 +147,13 @@ ErrorStatus LL_RTC_DeInit(RTC_TypeDef *RTCx)
   {
     /* Reset TR, DR and CR registers */
     LL_RTC_WriteReg(RTCx, TR,       0x00000000U);
-#if defined(RTC_WAKEUP_SUPPORT)
     LL_RTC_WriteReg(RTCx, WUTR,     RTC_WUTR_WUT);
-#endif /* RTC_WAKEUP_SUPPORT */
-    LL_RTC_WriteReg(RTCx, DR, (RTC_DR_WDU_0 | RTC_DR_MU_0 | RTC_DR_DU_0));
+    LL_RTC_WriteReg(RTCx, DR,      (RTC_DR_WDU_0 | RTC_DR_MU_0 | RTC_DR_DU_0));
+
     /* Reset All CR bits except CR[2:0] */
-#if defined(RTC_WAKEUP_SUPPORT)
     LL_RTC_WriteReg(RTCx, CR, (LL_RTC_ReadReg(RTCx, CR) & RTC_CR_WUCKSEL));
-#else
-    LL_RTC_WriteReg(RTCx, CR, 0x00000000U);
-#endif /* RTC_WAKEUP_SUPPORT */
-    LL_RTC_WriteReg(RTCx, PRER, (RTC_PRER_PREDIV_A | RTC_SYNCH_PRESC_DEFAULT));
+
+    LL_RTC_WriteReg(RTCx, PRER,    (RTC_PRER_PREDIV_A | RTC_SYNCH_PRESC_DEFAULT));
     LL_RTC_WriteReg(RTCx, ALRMAR,   0x00000000U);
     LL_RTC_WriteReg(RTCx, ALRMBR,   0x00000000U);
 
@@ -763,7 +756,7 @@ ErrorStatus LL_RTC_ExitInitMode(RTC_TypeDef *RTCx)
   *         synchronized with RTC APB clock.
   * @note   The RTC Resynchronization mode is write protected, use the
   *         @ref LL_RTC_DisableWriteProtection before calling this function.
-  * @note   To read the calendar through the shadow registers after Calendar
+  * @note   To read the calendar through the shadow registers after calendar
   *         initialization, calendar update or after wakeup from low power modes
   *         the software must first clear the RSF flag.
   *         The software must then wait until it is set again before reading
@@ -788,7 +781,7 @@ ErrorStatus LL_RTC_WaitForSynchro(RTC_TypeDef *RTCx)
 
   /* Wait the registers to be synchronised */
   tmp = LL_RTC_IsActiveFlag_RS(RTCx);
-  while ((timeout != 0U) && (tmp != 0U))
+  while ((timeout != 0U) && (tmp != 1U))
   {
     if (LL_SYSTICK_IsActiveCounterFlag() == 1U)
     {
@@ -798,24 +791,6 @@ ErrorStatus LL_RTC_WaitForSynchro(RTC_TypeDef *RTCx)
     if (timeout == 0U)
     {
       status = ERROR;
-    }
-  }
-
-  if (status != ERROR)
-  {
-    timeout = RTC_SYNCHRO_TIMEOUT;
-    tmp = LL_RTC_IsActiveFlag_RS(RTCx);
-    while ((timeout != 0U) && (tmp != 1U))
-    {
-      if (LL_SYSTICK_IsActiveCounterFlag() == 1U)
-      {
-        timeout--;
-      }
-      tmp = LL_RTC_IsActiveFlag_RS(RTCx);
-      if (timeout == 0U)
-      {
-        status = ERROR;
-      }
     }
   }
 

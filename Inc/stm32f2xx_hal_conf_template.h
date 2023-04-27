@@ -5,6 +5,7 @@
   * @brief   HAL configuration template file. 
   *          This file should be copied to the application folder and renamed
   *          to stm32f2xx_hal_conf.h.
+  *
   ******************************************************************************
   * @attention
   *
@@ -416,3 +417,5 @@
 #endif
 
 #endif /* __STM32F2xx_HAL_CONF_H */
+
+

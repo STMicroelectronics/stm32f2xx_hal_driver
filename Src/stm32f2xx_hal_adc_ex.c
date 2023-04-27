@@ -79,6 +79,7 @@
            of data to be transferred at each end of conversion
        (+) Read the ADCs converted values using the HAL_ADCEx_MultiModeGetValue() function.
 
+
   @endverbatim
   ******************************************************************************
   */
@@ -1064,4 +1065,5 @@ static void ADC_MultiModeDMAError(DMA_HandleTypeDef *hdma)
 
 /**
   * @}
-  */ 
+  */
+

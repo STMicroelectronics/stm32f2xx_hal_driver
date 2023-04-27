@@ -2518,3 +2518,4 @@ void        LL_USART_ClockStructInit(LL_USART_ClockInitTypeDef *USART_ClockInitS
 #endif
 
 #endif /* __STM32F2xx_LL_USART_H */
+

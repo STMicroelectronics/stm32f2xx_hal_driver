@@ -10,7 +10,7 @@
   *             RTC clock source (HSE, LSE or LSI)
   *           + The alarm is configured to assert an interrupt when the RTC reaches 1ms 
   *           + HAL_IncTick is called at each Alarm event and the time is reset to 00:00:00
-  *           + HSE (default), LSE or LSI can be selected as RTC clock source  
+  *           + HSE (default), LSE or LSI can be selected as RTC clock source
   *
   ******************************************************************************
   * @attention
@@ -331,3 +331,5 @@ void RTC_Alarm_IRQHandler(void)
 /**
   * @}
   */
+
+

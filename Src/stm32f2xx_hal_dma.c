@@ -16,8 +16,8 @@
   * Copyright (c) 2016 STMicroelectronics.
   * All rights reserved.
   *
-  * This software is licensed under terms that can be found in the LICENSE file
-  * in the root directory of this software component.
+  * This software is licensed under terms that can be found in the LICENSE file in
+  * the root directory of this software component.
   * If no LICENSE file comes with this software, it is provided AS-IS.
   *
   ******************************************************************************
@@ -964,7 +964,7 @@ void HAL_DMA_IRQHandler(DMA_HandleTypeDef *hdma)
   *                               the configuration information for the specified DMA Stream.
   * @param  CallbackID           User Callback identifier
   *                               a DMA_HandleTypeDef structure as parameter.
-  * @param  pCallback            pointer to private callbacsk function which has pointer to 
+  * @param  pCallback            pointer to private callback function which has pointer to 
   *                               a DMA_HandleTypeDef structure as parameter.
   * @retval HAL status
   */                      
@@ -1306,3 +1306,4 @@ static HAL_StatusTypeDef DMA_CheckFifoParam(DMA_HandleTypeDef *hdma)
 /**
   * @}
   */
+
