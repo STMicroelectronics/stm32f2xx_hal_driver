@@ -1425,7 +1425,7 @@ HAL_StatusTypeDef USB_HostInit(USB_OTG_GlobalTypeDef *USBx, USB_OTG_CfgTypeDef c
   USBx->GCCFG &= ~(USB_OTG_GCCFG_VBUSASEN);
   USBx->GCCFG &= ~(USB_OTG_GCCFG_VBUSBSEN);
 
-  if ((USBx->CID & (0x1U << 8)) != 0U)
+  if ((USBx->GUSBCFG & USB_OTG_GUSBCFG_PHYSEL) == 0U)
   {
     if (cfg.speed == USBH_FSLS_SPEED)
     {
@@ -1467,8 +1467,8 @@ HAL_StatusTypeDef USB_HostInit(USB_OTG_GlobalTypeDef *USBx, USB_OTG_CfgTypeDef c
 
   /* Clear any pending interrupts */
   USBx->GINTSTS = CLEAR_INTERRUPT_MASK;
-
-  if ((USBx->CID & (0x1U << 8)) != 0U)
+#if defined (USB_OTG_HS)
+  if (USBx == USB_OTG_HS)
   {
     /* set Rx FIFO size */
     USBx->GRXFSIZ  = 0x200U;
@@ -1476,6 +1476,7 @@ HAL_StatusTypeDef USB_HostInit(USB_OTG_GlobalTypeDef *USBx, USB_OTG_CfgTypeDef c
     USBx->HPTXFSIZ = (uint32_t)(((0xE0U << 16) & USB_OTG_HPTXFSIZ_PTXFD) | 0x300U);
   }
   else
+#endif /* defined (USB_OTG_HS) */
   {
     /* set Rx FIFO size */
     USBx->GRXFSIZ  = 0x80U;
@@ -1670,11 +1671,13 @@ HAL_StatusTypeDef USB_HC_Init(USB_OTG_GlobalTypeDef *USBx, uint8_t ch_num,
       }
       else
       {
-        if ((USBx->CID & (0x1U << 8)) != 0U)
+#if defined (USB_OTG_HS)
+        if (USBx == USB_OTG_HS)
         {
           USBx_HC((uint32_t)ch_num)->HCINTMSK |= USB_OTG_HCINTMSK_NYET |
                                                  USB_OTG_HCINTMSK_ACKM;
         }
+#endif /* defined (USB_OTG_HS) */
       }
       break;
 
@@ -1779,7 +1782,8 @@ HAL_StatusTypeDef USB_HC_StartXfer(USB_OTG_GlobalTypeDef *USBx, USB_OTG_HCTypeDe
   uint16_t num_packets;
   uint16_t max_hc_pkt_count = HC_MAX_PKT_CNT;
 
-  if ((USBx->CID & (0x1U << 8)) != 0U)
+#if defined (USB_OTG_HS)
+  if (USBx == USB_OTG_HS)
   {
     /* in DMA mode host Core automatically issues ping in case of NYET/NAK */
     if (dma == 1U)
@@ -1801,6 +1805,7 @@ HAL_StatusTypeDef USB_HC_StartXfer(USB_OTG_GlobalTypeDef *USBx, USB_OTG_HCTypeDe
       }
     }
   }
+#endif /* defined (USB_OTG_HS) */
 
   if (hc->do_ssplit == 1U)
   {
