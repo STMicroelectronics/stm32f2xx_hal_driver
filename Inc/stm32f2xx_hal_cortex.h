@@ -6,9 +6,6 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2017 STMicroelectronics.
-  * All rights reserved.</center></h2>
-  *
   * Copyright (c) 2017 STMicroelectronics.
   * All rights reserved.
   *
@@ -409,5 +406,4 @@ void HAL_MPU_ConfigRegion(MPU_Region_InitTypeDef *MPU_Init);
 #endif
 
 #endif /* __STM32F2xx_HAL_CORTEX_H */
- 
 
