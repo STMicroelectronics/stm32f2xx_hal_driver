@@ -1403,8 +1403,16 @@ HAL_StatusTypeDef HAL_UART_Transmit_DMA(UART_HandleTypeDef *huart, const uint8_t
 
     /* Enable the UART transmit DMA stream */
     tmp = (const uint32_t *)&pData;
-    HAL_DMA_Start_IT(huart->hdmatx, *(const uint32_t *)tmp, (uint32_t)&huart->Instance->DR, Size);
+    if (HAL_DMA_Start_IT(huart->hdmatx, *(const uint32_t *)tmp, (uint32_t)&huart->Instance->DR, Size) != HAL_OK)
+    {
+      /* Set error code to DMA */
+      huart->ErrorCode = HAL_UART_ERROR_DMA;
 
+      /* Restore huart->gState to ready */
+      huart->gState = HAL_UART_STATE_READY;
+
+      return HAL_ERROR;
+    }
     /* Clear the TC flag in the SR register by writing 0 to it */
     __HAL_UART_CLEAR_FLAG(huart, UART_FLAG_TC);
 
@@ -3305,8 +3313,16 @@ HAL_StatusTypeDef UART_Start_Receive_DMA(UART_HandleTypeDef *huart, uint8_t *pDa
 
   /* Enable the DMA stream */
   tmp = (uint32_t *)&pData;
-  HAL_DMA_Start_IT(huart->hdmarx, (uint32_t)&huart->Instance->DR, *(uint32_t *)tmp, Size);
+  if (HAL_DMA_Start_IT(huart->hdmarx, (uint32_t)&huart->Instance->DR, *(uint32_t *)tmp, Size) != HAL_OK)
+  {
+    /* Set error code to DMA */
+    huart->ErrorCode = HAL_UART_ERROR_DMA;
 
+    /* Restore huart->RxState to ready */
+    huart->RxState = HAL_UART_STATE_READY;
+
+    return HAL_ERROR;
+  }
   /* Clear the Overrun flag just before enabling the DMA Rx request: can be mandatory for the second transfer */
   __HAL_UART_CLEAR_OREFLAG(huart);
 
@@ -3605,15 +3621,16 @@ static HAL_StatusTypeDef UART_EndTransmit_IT(UART_HandleTypeDef *huart)
   */
 static HAL_StatusTypeDef UART_Receive_IT(UART_HandleTypeDef *huart)
 {
-  uint8_t  *pdata8bits;
-  uint16_t *pdata16bits;
+  uint8_t  *pdata8bits = NULL;
+  uint16_t *pdata16bits = NULL;
 
   /* Check that a Rx process is ongoing */
   if (huart->RxState == HAL_UART_STATE_BUSY_RX)
   {
     if ((huart->Init.WordLength == UART_WORDLENGTH_9B) && (huart->Init.Parity == UART_PARITY_NONE))
     {
-      pdata8bits  = NULL;
+      /* Unused pdata8bits */
+      UNUSED(pdata8bits);
       pdata16bits = (uint16_t *) huart->pRxBuffPtr;
       *pdata16bits = (uint16_t)(huart->Instance->DR & (uint16_t)0x01FF);
       huart->pRxBuffPtr += 2U;
@@ -3621,7 +3638,8 @@ static HAL_StatusTypeDef UART_Receive_IT(UART_HandleTypeDef *huart)
     else
     {
       pdata8bits = (uint8_t *) huart->pRxBuffPtr;
-      pdata16bits  = NULL;
+      /* Unused pdata16bits */
+      UNUSED(pdata16bits);
 
       if ((huart->Init.WordLength == UART_WORDLENGTH_9B) || ((huart->Init.WordLength == UART_WORDLENGTH_8B) && (huart->Init.Parity == UART_PARITY_NONE)))
       {
