@@ -452,6 +452,12 @@ typedef USB_HCTypeDef       USB_OTG_HCTypeDef;
 #define TEST_PACKET                            4U
 #define TEST_FORCE_EN                          5U
 
+#define USB_OTG_GAHBCFG_HBSTLEN_SINGLE         (0x0UL << USB_OTG_GAHBCFG_HBSTLEN_Pos)
+#define USB_OTG_GAHBCFG_HBSTLEN_INCR           (0x1UL << USB_OTG_GAHBCFG_HBSTLEN_Pos)
+#define USB_OTG_GAHBCFG_HBSTLEN_INCR4          (0x3UL << USB_OTG_GAHBCFG_HBSTLEN_Pos)
+#define USB_OTG_GAHBCFG_HBSTLEN_INCR8          (0x5UL << USB_OTG_GAHBCFG_HBSTLEN_Pos)
+#define USB_OTG_GAHBCFG_HBSTLEN_INCR16         (0x7UL << USB_OTG_GAHBCFG_HBSTLEN_Pos)
+
 #define USBx_PCGCCTL    *(__IO uint32_t *)((uint32_t)USBx_BASE + USB_OTG_PCGCCTL_BASE)
 #define USBx_HPRT0      *(__IO uint32_t *)((uint32_t)USBx_BASE + USB_OTG_HOST_PORT_BASE)
 
